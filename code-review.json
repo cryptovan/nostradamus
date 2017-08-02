@@ -1,0 +1,10 @@
+{
+  "templates": [
+    {
+      "regex": ".*",
+      "template": [
+        "- [ ] Does the code meet our coding standards?",
+      ]
+    }
+  ]
+}

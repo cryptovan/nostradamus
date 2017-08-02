@@ -1,0 +1,26 @@
+service: default
+runtime: nodejs
+env: flex
+manual_scaling:
+  instances: 1
+
+resources:
+ cpu: .5
+ memory_gb: 0.9
+ disk_size_gb: 10
+
+vm_health_check:
+  enable_health_check: False
+  
+# health_check:
+#   check_interval_sec: 60
+#   restart_threshold: 5
+
+env_variables:
+  SCRIPT: src/index.js
+
+# handlers:
+# - url: /
+#   script: build/main.js
+# - url: /_ah/health
+#   script: build/main.js

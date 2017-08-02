@@ -1,0 +1,8 @@
+.Page {
+    background: #fdc842;
+    background: -webkit-linear-gradient(135deg, #fdc842, #fdc842);
+    background: linear-gradient(135deg, #fdc842, #fdc842);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: left top;
+}
