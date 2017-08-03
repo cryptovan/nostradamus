@@ -9,6 +9,7 @@
         "format": "./node_modules/.bin/tsfmt -r src/scraper/index.ts",
         "start": "react-scripts start",
         "electron": "tsc && ELECTRON_ENABLE_LOGGING=1 electron .",
+        "graphql": "yarn run build && yarn run babel-node build/data-service/index.js",
         "test": "react-scripts test --env=jsdom"
     },
     "dependencies": {
@@ -20,8 +21,13 @@
         "babel-preset-es2017": "^6.24.1",
         "babel-preset-react-app": "^3.0.1",
         "babel-preset-stage-1": "^6.24.1",
+        "cors": "^2.8.4",
+        "express": "^4.15.3",
+        "express-graphql": "^0.6.7",
         "flow-bin": "^0.50.0",
+        "graphql": "^0.10.5",
         "graphql-tag": "^2.4.2",
+        "graphql-tools": "^1.1.0",
         "isomorphic-fetch": "^2.2.1",
         "node-fetch": "^1.7.1",
         "opn": "^5.1.0",

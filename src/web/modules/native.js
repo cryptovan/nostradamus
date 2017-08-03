@@ -1,7 +1,3 @@
-// @flow
-
-//import { graphql } from 'react-relay'
-
 export const READY = 'native/READY'
 export const READY_ACKNOWLEDGED = 'native/READY_ACKNOWLEDGED'
 export const GOOGLE_SIGN_IN_REQUESTED = 'native/GOOGLE_SIGN_IN'
@@ -16,8 +12,8 @@ export const GET_USER_DETAILS = 'native/GET_USER_DETAILS'
 export const SET_USER_DETAILS = 'native/SET_USER_DETAILS'
 export const SHOW_SIGN_IN = 'native/SHOW_SIGN_IN'
 
-const sendToNative = (actionKey: string, message: Object = {}) => {
-    const data: string = JSON.stringify({ key: actionKey, ...message })
+const sendToNative = (actionKey, message) => {
+    const data = JSON.stringify({ key: actionKey, ...message })
 
     console.log('To Native: ' + data)
 
@@ -30,7 +26,7 @@ const initialState = {
     userDetails: null
 }
 
-export default (state: Object = initialState, action: { type: string, userDetails: ?Object }) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case GO_BACK_FINISHED:
             return {
@@ -61,7 +57,7 @@ export default (state: Object = initialState, action: { type: string, userDetail
 }
 
 export const goBackFinished = () => {
-    return (dispatch: Function) => {
+    return (dispatch) => {
         dispatch({
             type: GO_BACK_FINISHED
         })
@@ -74,7 +70,7 @@ export const showSignIn = () => {
     }
 }
 
-export const setUserDetails = (userDetails: Object) => {
+export const setUserDetails = (userDetails) => {
     return {
         type: SET_USER_DETAILS,
         userDetails
@@ -87,7 +83,7 @@ export const signIn = () => {
     }
 }
 
-export const submitRegistration = (email: string) => {
+export const submitRegistration = (email) => {
     // graphql`
     //     mutation createPerson {
     //     }
@@ -100,10 +96,10 @@ export const submitRegistration = (email: string) => {
 }
 
 document.addEventListener('WebViewBridge', () => {
-    window.WebViewBridge.onMessage = (data: string) => {
+    window.WebViewBridge.onMessage = (data) => {
         console.log('From Native: ' + data)
 
-        const message: Object = JSON.parse(data)
+        const message = JSON.parse(data)
         
         const dispatch = window.dispatchhhh // hack for now
 

@@ -9,11 +9,20 @@ import { bindActionCreators } from 'redux'
 import createBrowserHistory from 'history/createBrowserHistory'
 
 import Home from '../containers/home'
+import Trends from '../containers/trends'
+import Trades from '../containers/trades'
+import Token from '../containers/token'
+import Exchange from '../containers/exchange'
+import Exchanges from '../containers/exchanges'
 
+import registerServiceWorker from './registerServiceWorker'
 import { login } from '../modules/account'
 import { history } from '../store'
 
 import './index.css'
+
+
+registerServiceWorker()
 
 const handler = function (e) {
     if (e.ctrlKey && e.code === 'KeyE') {
@@ -88,6 +97,11 @@ class App extends Component {
                 <Router history={history} onUpdate={() => window.scrollTo(0, 0)}>
                     <Switch>
                         <Route exact path="/" component={Home} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/trends" component={Trends} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/trades" component={Trades} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/tokens/:tokenCode" component={Token} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/exchanges" component={Exchanges} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/exchanges/:exchangeCode" component={Exchange} onChange={this.onRouteChange.bind(this)} />
                     </Switch>
                 </Router>
             </div>

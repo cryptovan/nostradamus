@@ -1,7 +1,3 @@
-// @flow
-
-//import { graphql } from 'react-relay'
-
 export const LOGIN = 'account/LOGIN'
 export const LOGOUT = 'account/LOGOUT'
 
@@ -10,7 +6,7 @@ const initialState = {
     errors: null
 }
 
-export default (state: Object = initialState, action: { person: ?Object, errors: ?Array<string> }) => {
+export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN:
             return {

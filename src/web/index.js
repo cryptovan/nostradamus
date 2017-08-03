@@ -6,18 +6,16 @@ import { ApolloProvider } from 'react-apollo'
 import { ConnectedRouter } from 'react-router-redux'
 import { combineReducers } from 'redux'
 import { Router, IndexRoute, Route, withRouter, applyRouterMiddleware } from 'react-router'
-import { history, initialState, enhancers, middleware } from './store'
 import { createStore, applyMiddleware, compose } from 'redux'
 
-import registerServiceWorker from './registerServiceWorker'
-import App from './app'
+import { history, initialState, enhancers, middleware } from './store'
 import reducers from './modules'
+import App from './app'
 
 import './lib/flex'
 import 'sanitize.css/sanitize.css'
 
 const target = document.querySelector('#root')
-
 const token = localStorage.getItem('token')
 const networkInterface = createNetworkInterface({ uri: 'http://localhost:4000/graphql' })
 
@@ -57,5 +55,3 @@ render(
     </ApolloProvider>,
     target
 )
-
-registerServiceWorker()
