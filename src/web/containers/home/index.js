@@ -52,19 +52,21 @@ const Tokens = graphql(gql`
             dataIndex: 'name',
             key: 'name',
             sorter: (a, b) => a.name.length - b.name.length,
-            render: (value) => <span><Link to="/tokens/btc">{value}</Link></span>
+            render: (value, record) => <span><Link to={`/tokens/${record.code}`}>{value}</Link></span>
         },
         {
             title: 'Market Cap',
             dataIndex: 'marketCap',
             key: 'marketCap',
             sorter: (a, b) => a.marketCap - b.marketCap,
+            render: (value) => `$${value.toFixed(0)}`,
         },
         {
             title: 'Price',
             dataIndex: 'priceUsd',
             key: 'priceUsd',
-            sorter: (a, b) => a.priceUsd - b.priceUsd
+            sorter: (a, b) => a.priceUsd - b.priceUsd,
+            render: (value) => `$${value.toFixed(2)}`,
         },
         {
             title: 'Circulating Supply',
@@ -82,37 +84,42 @@ const Tokens = graphql(gql`
             title: 'Change 24H',
             dataIndex: 'change24h',
             key: 'change24h',
+            render: (value) => `${value.toFixed(2)}%`,
             sorter: (a, b) => a.change24h - b.change24h
         },
         {
             title: 'Change 7D',
             dataIndex: 'change7d',
             key: 'change7d',
-            render: (value) => `${value}%`,
+            render: (value) => `${value.toFixed(2)}%`,
             sorter: (a, b) => a.change7d - b.change7d
         },
         {
             title: 'Change 1M',
             dataIndex: 'change1m',
             key: 'change1m',
+            render: (value) => `${value.toFixed(2)}%`,
             sorter: (a, b) => a.change1m - b.change1m
         },
         {
             title: 'Change 3M',
             dataIndex: 'change3m',
             key: 'change3m',
+            render: (value) => `${value.toFixed(2)}%`,
             sorter: (a, b) => a.change3m - b.change3m
         },
         {
             title: 'Change 6M',
             dataIndex: 'change6m',
             key: 'change6m',
+            render: (value) => `${value.toFixed(2)}%`,
             sorter: (a, b) => a.change6m - b.change6m
         },
         {
             title: 'Change 1Y',
             dataIndex: 'change1y',
             key: 'change1y',
+            render: (value) => `${value.toFixed(2)}%`,
             sorter: (a, b) => a.change1y - b.change1y
         },
         {
@@ -317,10 +324,15 @@ function Container() {
     return (
         <BasicLayout className="Page">
             <Content style={{ padding: 0, margin: 0 }}>
+                <WhiteSpace />
+                <WhiteSpace />
+                <h3>Exchanges</h3>
                 <Exchanges />
                 <WhiteSpace />
+                <h3>Tokens</h3>
                 <Tokens />
                 <WhiteSpace />
+                <h3>Trends</h3>
                 <Trends />
                 <WhiteSpace />
             </Content>

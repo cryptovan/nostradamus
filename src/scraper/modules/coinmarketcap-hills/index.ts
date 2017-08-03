@@ -13,11 +13,17 @@ type GraphDataPointItem = {
     max: number | null,
     mean: number | null,
     stdev: number | null,
+    volume: number | null,
     chartUrl: string | null,
     points: Array<any>
 }
 
 type GraphDataPoints = {
+    code: string,
+    name: string,
+    marketCap: number | null,
+    priceUsd: number | null,
+    circulatingSupply: number | null,
     day: GraphDataPointItem,
     week: GraphDataPointItem,
     month: GraphDataPointItem,
@@ -25,8 +31,13 @@ type GraphDataPoints = {
     all: GraphDataPointItem
 }
 
-export async function getGraphDataPoints(asset: string) {
+export async function getGraphDataPoints(code: string) {
     const result: GraphDataPoints = {
+        code: code,
+        name: tokenLookup[code].name,
+        marketCap: null,
+        priceUsd: null,
+        circulatingSupply: null,
         day: {
             start: null,
             end: null,
@@ -35,6 +46,7 @@ export async function getGraphDataPoints(asset: string) {
             mean: null,
             stdev: null,
             chartUrl: null,
+            volume: null,
             points: []
         },
         week: {
@@ -45,6 +57,7 @@ export async function getGraphDataPoints(asset: string) {
             mean: null,
             stdev: null,
             chartUrl: null,
+            volume: null,
             points: []
         },
         month: {
@@ -55,6 +68,7 @@ export async function getGraphDataPoints(asset: string) {
             mean: null,
             stdev: null,
             chartUrl: null,
+            volume: null,
             points: []
         },
         year: {
@@ -65,6 +79,7 @@ export async function getGraphDataPoints(asset: string) {
             mean: null,
             stdev: null,
             chartUrl: null,
+            volume: null,
             points: []
         },
         all: {
@@ -75,11 +90,12 @@ export async function getGraphDataPoints(asset: string) {
             mean: null,
             stdev: null,
             chartUrl: null,
+            volume: null,
             points: []
         }
     }
 
-    let data = await getRawGraphData(asset)
+    let data = await getRawGraphData(code)
 
     data = await data.json()
     data = data.market_cap_by_available_supply
@@ -100,6 +116,11 @@ export async function getGraphDataPoints(asset: string) {
         result.all.mean = res.mean()
         result.all.stdev = res.stdev()
         result.all.chartUrl = res.chart()
+        result.all.start = res.data[0][1]
+        result.all.end = res.data[res.data.length - 1][1]
+
+        result.marketCap = result.all.max
+        result.priceUsd = data[data.length - 1][1]
     }
 
     {
@@ -119,6 +140,8 @@ export async function getGraphDataPoints(asset: string) {
         result.year.mean = res.mean()
         result.year.stdev = res.stdev()
         result.year.chartUrl = res.chart()
+        result.year.start = res.data[0][1]
+        result.year.end = res.data[res.data.length - 1][1]
     }
 
     {
@@ -132,7 +155,6 @@ export async function getGraphDataPoints(asset: string) {
                 period: 3
             })
 
-        let points: Array<any> = []
         let lines: Array<any> = []
         let prevVal = res.data[0][1]
         let majorPeakVal = res.data[res.data.length - 1][1] * 0.05 // Peak at 5% diff
@@ -173,7 +195,9 @@ export async function getGraphDataPoints(asset: string) {
         result.month.max = res.max()
         result.month.mean = res.mean()
         result.month.stdev = res.stdev()
-        result.week.chartUrl = res.chart({ points, lines })
+        result.month.chartUrl = res.chart({ lines })
+        result.month.start = res.data[0][1]
+        result.month.end = res.data[res.data.length - 1][1]
     }
 
     {
@@ -236,8 +260,8 @@ export async function getGraphDataPoints(asset: string) {
         result.week.stdev = res.stdev()
         result.week.chartUrl = res.chart({ lines })
         result.week.points = points
-        result.week.start = refinedData[0][1]
-        result.week.end = refinedData[refinedData.length-1][1]
+        result.week.start = res.data[0][1]
+        result.week.end = res.data[res.data.length - 1][1]
     }
 
     {
@@ -257,6 +281,8 @@ export async function getGraphDataPoints(asset: string) {
         result.day.mean = res.mean()
         result.day.stdev = res.stdev()
         result.day.chartUrl = res.chart()
+        result.day.start = res.data[0][1]
+        result.day.end = res.data[res.data.length - 1][1]
     }
 
         // .save('1')
@@ -281,8 +307,35 @@ export async function getGraphDataPoints(asset: string) {
     return result
 }
 
-export async function getRawGraphData(asset: string, opts?: { convert?: string }): Promise<any> {
+const tokenLookup = {
+    btc: {
+        name: 'Bitcoin',
+        code: 'btc',
+        coinmarketcapName: 'bitcoin'
+    },
+    ltc: {
+        name: 'Litecoin',
+        code: 'ltc',
+        coinmarketcapName: 'litecoin'
+    },
+    neo: {
+        name: 'NEO',
+        code: 'neo',
+        coinmarketcapName: 'neo'
+    },
+    eth: {
+        name: 'Ethereum',
+        code: 'eth',
+        coinmarketcapName: 'ethereum'
+    }
+}
+
+
+
+export async function getRawGraphData(code: string, opts?: { convert?: string }): Promise<any> {
+    const asset = tokenLookup[code].coinmarketcapName
     const query = querystring.stringify(opts)
+
     const res = await fetch(`https://graphs.coinmarketcap.com/currencies/${asset}/?${query}`, {
         method: 'GET',
         headers: {
@@ -299,22 +352,45 @@ async function wait(milliseconds) {
     })
 }
 
-class Module {
+type TokenItem = {
+    code: string,
+    data: GraphDataPoints | null
+}
+
+
+export class Module {
+    tokens: Array<TokenItem> = [
+        {
+            code: 'neo',
+            data: null
+        },
+        {
+            code: 'btc',
+            data: null
+        },
+        {
+            code: 'ltc',
+            data: null
+        },
+        {
+            code: 'eth',
+            data: null
+        }
+    ]
+
     async monitor() {
         console.log('Monitoring...')
 
-        const tokens = ['neo', 'bitcoin', 'litecoin']
-
-        for (let token of tokens) {
+        for (let token of this.tokens) {
             console.log('Monitoring ', token)
 
-            const data = await getGraphDataPoints(token)
-            console.log(data.week.points)
+            token.data = await getGraphDataPoints(token.code)
+            console.log(token.data.week.points)
 
-            if (data.week.end! < data.week.max! * 0.9) {
-                const possibleIncrease = data.week.max! / data.week.end! - 1
+            if (token.data.week.end! < token.data.week.max! * 0.9) {
+                const possibleIncrease = token.data.week.max! / token.data.week.end! - 1
                 console.log('Price is down more than 10% from all time high this week: ', possibleIncrease)
-                console.log(data.week)
+                console.log(token.data.week)
             }
 
             await wait(1000)
