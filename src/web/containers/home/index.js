@@ -43,6 +43,9 @@ const Tokens = graphql(gql`
             change3m
             change6m
             change1y
+            hackCount
+            hackMentions
+            volatilityRank
         }
     }
 `)(({ data, mutate }) => {
@@ -52,7 +55,7 @@ const Tokens = graphql(gql`
             dataIndex: 'name',
             key: 'name',
             sorter: (a, b) => a.name.length - b.name.length,
-            render: (value, record) => <span><Link to={`/tokens/${record.code}`}>{value}</Link></span>
+            render: (value, record) => <span><Link to={`/token/${record.code}`}>{value}</Link></span>
         },
         {
             title: 'Market Cap',
@@ -172,15 +175,40 @@ const Tokens = graphql(gql`
 })
 
 const Trends = graphql(gql`
-    query ExchangeQuery {
-        exchanges {
-            name
-            tokens {
+    query DealsQuery {
+        deals {
+            date
+            type
+            token {
                 code
+                name
+                type
+                marketCap
+                priceUsd
+                circulatingSupply
+                volume24h
+                change24h
+                change7d
+                change1m
+                change3m
+                change6m
+                change1y
+                hackCount
+                hackMentions
+                volatilityRank
+            }
+            exchanges {
+                name
+                tokenCount
+                status
+                newsMentions
+                tokens {
+                    code
+                }
             }
         }
     }
-`)(({ mutate }) => {
+`)(({ data, mutate }) => {
     const columns = [
         {
             title: 'Date',
@@ -188,58 +216,39 @@ const Trends = graphql(gql`
             key: 'date'
         },
         {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            sorter: (a, b) => a.name.length - b.name.length,
+            title: 'Type',
+            dataIndex: 'type',
+            key: 'type',
+            sorter: (a, b) => a.type.length - b.type.length,
         },
         {
-            title: 'Status',
-            key: 'state',
-            render: () => <span><Badge status="success" />Finished</span>
+            title: 'Token',
+            dataIndex: 'token',
+            key: 'token',
+            render: (value) => value.name,
+            sorter: (a, b) => a.token.length - b.token.length,
         },
         {
-            title: 'Upgrade Status',
-            dataIndex: 'upgradeNum',
-            key: 'upgradeNum',
-            sorter: (a, b) => a.upgradeNum - b.upgradeNum
-        },
-        {
-            title: 'Action',
-            dataIndex: 'operation',
-            key: 'operation',
-            render: () => (
-                <span className={'table-operation'}>
-                    <a href="#">Pause</a>
-                    <span className="ant-divider" />
-                    <a href="#">Stop</a>
-                    <span className="ant-divider" />
-                    <Dropdown overlay={menu}>
-                        <a href="#">
-                            More <Icon type="down" />
-                        </a>
-                    </Dropdown>
-                </span>
-            ),
+            title: 'Exchanges',
+            dataIndex: 'exchanges',
+            key: 'exchanges',
+            sorter: (a, b) => a.exchanges.length - b.exchanges.length,
         },
     ]
 
-    const data = []
-    for (let i = 0; i < 3; ++i) {
-        data.push({
-            key: i,
-            date: '2014-12-24 23:12:00',
-            name: 'This is production name',
-            upgradeNum: 'Upgraded: 56',
-        })
-    }
-
     return (
-        <Table
-            columns={columns}
-            dataSource={data}
-            pagination={false}
-        />
+        <Spin spinning={!data.deals}>
+            <Table
+                columns={columns}
+                dataSource={data.deals}
+                pagination={false}
+                locale={{
+                    filterConfirm: 'OK',
+                    filterReset: 'Reset',
+                    emptyText: 'No Data'
+                }}
+            />
+        </Spin>
     )
 })
 
@@ -264,7 +273,7 @@ const Exchanges = graphql(gql`
             dataIndex: 'name',
             key: 'name',
             sorter: (a, b) => a.name.length - b.name.length,
-            render: (value) => <span><Link to="/exchanges/bittrex">{value}</Link></span>
+            render: (value) => <span><Link to="/exchange/bittrex">{value}</Link></span>
         },
         {
             title: 'Tokens',
@@ -314,31 +323,34 @@ const Exchanges = graphql(gql`
                 columns={columns}
                 dataSource={data.exchanges}
                 pagination={false}
+                locale={{
+                    filterConfirm: 'OK',
+                    filterReset: 'Reset',
+                    emptyText: 'No Data'
+                }}
             />
         </Spin>
     )
 })
 
 
-function Container() {
-    return (
-        <BasicLayout className="Page">
-            <Content style={{ padding: 0, margin: 0 }}>
-                <WhiteSpace />
-                <WhiteSpace />
-                <h3>Exchanges</h3>
-                <Exchanges />
-                <WhiteSpace />
-                <h3>Tokens</h3>
-                <Tokens />
-                <WhiteSpace />
-                <h3>Trends</h3>
-                <Trends />
-                <WhiteSpace />
-            </Content>
-        </BasicLayout>
-    )
-}
+const Container = () => (
+    <BasicLayout>
+        <Content>
+            <WhiteSpace />
+            <WhiteSpace />
+            <h3>Exchanges</h3>
+            <Exchanges />
+            <WhiteSpace />
+            <h3>Tokens</h3>
+            <Tokens />
+            <WhiteSpace />
+            <h3>Trends</h3>
+            <Trends />
+            <WhiteSpace />
+        </Content>
+    </BasicLayout>
+)
 
 Container.displayName = 'home/Container'
 

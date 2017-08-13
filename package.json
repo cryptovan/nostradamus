@@ -4,13 +4,15 @@
     "private": true,
     "repository": "git@github.com:ericmuyser/nostradamus.git",
     "license": "UNLICENSED",
+    "main": "./build/scraper/index.js",
     "scripts": {
         "build": "yarn run tsc --listEmittedFiles",
         "format": "./node_modules/.bin/tsfmt -r src/scraper/index.ts",
         "start": "react-scripts start",
         "electron": "tsc && ELECTRON_ENABLE_LOGGING=1 electron .",
         "graphql": "yarn run build && yarn run babel-node build/data-service/index.js",
-        "test": "react-scripts test --env=jsdom"
+        "test": "react-scripts test --env=jsdom",
+        "chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-web-security --user-data-dir"
     },
     "dependencies": {
         "@types/react": "^16.0.0",

@@ -352,31 +352,27 @@ async function wait(milliseconds) {
     })
 }
 
-type TokenItem = {
+export type TokenItem = {
     code: string,
     data: GraphDataPoints | null
 }
 
+type Exchange = {
+    name: string,
+    tokens: Array<TokenItem>
+}
+
+type Deal = {
+    date: string,
+    type: string,
+    token: TokenItem,
+    exchanges?: Array<Exchange>
+}
+
 
 export class Module {
-    tokens: Array<TokenItem> = [
-        {
-            code: 'neo',
-            data: null
-        },
-        {
-            code: 'btc',
-            data: null
-        },
-        {
-            code: 'ltc',
-            data: null
-        },
-        {
-            code: 'eth',
-            data: null
-        }
-    ]
+    tokens: Array<TokenItem> = Object.keys(tokenLookup).map((token) => ({code: token, data: null}))
+    deals: Array<Deal> = []
 
     async monitor() {
         console.log('Monitoring...')
@@ -391,14 +387,14 @@ export class Module {
                 const possibleIncrease = token.data.week.max! / token.data.week.end! - 1
                 console.log('Price is down more than 10% from all time high this week: ', possibleIncrease)
                 console.log(token.data.week)
+                this.deals.push({
+                    date: (new Date()).toString(),
+                    type: 'downward',
+                    token: token
+                })
             }
 
             await wait(1000)
-            //opn(graph.day.chartUrl)
-            //opn(graph.month.chartUrl)
-            //opn(graph.month.chartUrl)
-            //opn(graph.year.chartUrl)
-            //opn(graph.all.chartUrl)
         }
     }
 

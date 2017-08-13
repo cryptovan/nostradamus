@@ -5,10 +5,11 @@ mod.monitor()
 
 const schema = `
     type Exchange {
-        name: String,
-        tokenCount: Int,
-        status: String,
-        newsMentions: Int,
+        name: String
+        tokenCount: Int
+        status: String
+        newsMentions: Int
+        hackMentions: Int
         tokens: [Token]
     }
 
@@ -26,13 +27,24 @@ const schema = `
         change3m: Float
         change6m: Float
         change1y: Float
+        hackCount: Int
+        hackMentions: Int
+        volatilityRank: Float
     }
 
     type Query {
         exchanges: [Exchange]
-        exchange(uuid:Int!): Exchange
+        exchange(code:String!): Exchange
         tokens: [Token]
-        token(uuid:Int!): Token
+        token(code:String!): Token
+        deals: [Deal]
+    }
+
+    type Deal {
+        date: String
+        type: String
+        token: Token
+        exchanges: [Exchange]
     }
 
     input CompleteMatchInput {
@@ -48,6 +60,36 @@ const fetchMatch = (uuid) => {
     console.log(uuid)
 }
 
+type Token = {
+    code: string | null,
+    name: string | null,
+    type: string | null,
+    marketCap: number | null,
+    priceUsd: number | null,
+    circulatingSupply: number | null,
+    volume24h: number | null,
+    change24h: number | null,
+    change7d: number | null,
+    change1m: number | null,
+    change3m: number | null,
+    change6m: number | null,
+    change1y: number | null,
+    hackCount: number | null,
+    hackMentions: number | null,
+    volatilityRank: number | null
+}
+
+type Exchange = {
+    name: string,
+    tokens: Array<Token>
+}
+
+type Deal = {
+    date: string,
+    type: string,
+    token: Token,
+    exchanges: Array<Exchange>
+}
 
 const resolvers = {
     Exchange: {
@@ -62,6 +104,37 @@ const resolvers = {
     },
 
     Query: {
+        deals: async (_) => {
+            const d = mod.deals[0]
+
+            let result: Array<Deal> = [
+                {
+                    date: d.date,
+                    type: d.type,
+                    token: {
+                        code: d.token.data!.code,
+                        name: d.token.data!.name,
+                        type: 'Platform',
+                        marketCap: d.token.data!.marketCap,
+                        priceUsd: d.token.data!.priceUsd,
+                        circulatingSupply: d.token.data!.circulatingSupply,
+                        volume24h: d.token.data!.day.volume,
+                        change24h: d.token.data!.day.max! / d.token.data!.day.end! - 1,
+                        change7d: d.token.data!.week.max! / d.token.data!.week.end! - 1,
+                        change1m: d.token.data!.month.max! / d.token.data!.month.end! - 1,
+                        change3m: 4.00,
+                        change6m: 6.00,
+                        change1y: 100.00,
+                        hackCount: 1,
+                        hackMentions: 1,
+                        volatilityRank: 1
+                    },
+                    exchanges: []
+                }
+            ]
+
+            return result
+        },
         exchanges: async (_, params) => {
             let result = [
                 {
@@ -84,6 +157,34 @@ const resolvers = {
 
             return result
         },
+        token: async (_, params) => {
+            let token = mod.tokens.filter((token) => token.code === params.code)[0]
+            
+            const result = {
+                code: token.data!.code,
+                name: token.data!.name,
+                type: 'Platform',
+                marketCap: token.data!.marketCap,
+                priceUsd: token.data!.priceUsd,
+                circulatingSupply: token.data!.circulatingSupply,
+                volume24h: token.data!.day.volume,
+                change24h: token.data!.day.max! / token.data!.day.end! - 1,
+                change7d: token.data!.week.max! / token.data!.week.end! - 1,
+                change1m: token.data!.month.max! / token.data!.month.end! - 1,
+                change3m: 4.00,
+                change6m: 6.00,
+                change1y: 100.00,
+                hackCount: 1,
+                hackMentions: 1,
+                volatilityRank: 1
+            }
+
+            if (!result) {
+                throw Error(`Cannot find token ${params.code}`)
+            }
+
+            return result
+        },
         tokens: async (_, params) => {
             let result = mod.tokens.map((token) => {
                 return {
@@ -99,7 +200,10 @@ const resolvers = {
                     change1m: token.data!.month.max! / token.data!.month.end! - 1,
                     change3m: 4.00,
                     change6m: 6.00,
-                    change1y: 100.00
+                    change1y: 100.00,
+                    hackCount: 1,
+                    hackMentions: 1,
+                    volatilityRank: 1
                 }
             })
             // let result = [

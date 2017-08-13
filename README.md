@@ -2,6 +2,8 @@
 
 To the moon
 
+40-60% chance rise after double volume
+
 
 ## TODO
 

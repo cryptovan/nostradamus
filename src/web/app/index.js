@@ -99,9 +99,9 @@ class App extends Component {
                         <Route exact path="/" component={Home} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/trends" component={Trends} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/trades" component={Trades} onChange={this.onRouteChange.bind(this)} />
-                        <Route exact path="/tokens/:tokenCode" component={Token} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/token/:tokenCode" component={Token} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/exchanges" component={Exchanges} onChange={this.onRouteChange.bind(this)} />
-                        <Route exact path="/exchanges/:exchangeCode" component={Exchange} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/exchange/:exchangeCode" component={Exchange} onChange={this.onRouteChange.bind(this)} />
                     </Switch>
                 </Router>
             </div>

@@ -1,5 +1,5 @@
 html, body {
-  font-family: PingFang SC,Helvetica Neue,Hiragino Sans GB,Helvetica,Microsoft YaHei,Arial;
+  font-family: Helvetica Neue,Hiragino Sans GB,Helvetica,Microsoft YaHei,Arial;
 }
   
 html {
@@ -26,6 +26,11 @@ body {
     -ms-user-select: none;
     user-select: none;
     font-size: .32rem;
+    
+    background-image: url(https://cryptotrackr.com/static/media/background.8073ab65.jpg);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
 }
 
 #root, .App, .Page, .ant-layout {
@@ -33,8 +38,8 @@ body {
 }
 
 .ant-layout-header {
-    background: #111;
     border-bottom: 2px solid #fff;
+    background: url(https://hitbtc.com/blocks/header/head_bg.svg) #325975;
 }
 
 .ant-menu-dark.ant-menu-horizontal {
@@ -59,11 +64,11 @@ body {
 }
 
 .ant-layout {
-    background: #111;
+    background: transparent;
 }
 
 .ant-layout-content {
-    background: #111 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
     color: #fff;
 }
 
@@ -78,6 +83,10 @@ body {
 .ant-table-thead > tr > th {
     background: #111;
     color: #fff;
+}
+
+.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
+    padding: 8px 8px;
 }
   
 tr.ant-table-expanded-row, tr.ant-table-expanded-row:hover,
@@ -104,4 +113,51 @@ tr.ant-table-expanded-row, tr.ant-table-expanded-row:hover,
 
 h1, h2, h3, h4, h5, h6 {
     color: rgba(255, 255, 255, 0.85);
+}
+
+.marker-bars {
+    display: inline-block;
+    width: 100px;
+    text-align: center;
+}
+
+.marker-total {
+    display: inline-block;
+    width: 30px;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.marker-up {
+    display: inline-block;
+    color: rgba(0, 128, 0, 0.5);
+    font-weight: bold;
+    background: white;
+    padding: 2px;
+    height: 20px;
+}
+
+.marker-down {
+    display: inline-block;
+    color: rgba(255, 0, 0, 0.5);
+    font-weight: bold;
+    background: white;
+    padding: 2px;
+    height: 20px;
+}
+
+.marker-bar.up {
+    display: inline-block;
+    height: 20px;
+    background: green;
+}
+
+.marker-bar.down {
+    display: inline-block;
+    height: 20px;
+    background: red;
+}
+
+.trends table {
+    font-size: 0.7em;
 }

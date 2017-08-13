@@ -2,10 +2,10 @@ import * as querystring from 'querystring'
 import fetch from 'node-fetch'
 
 import { app } from 'electron'
-// import bittrexChange from './modules/bittrex-change'
+import bittrexChange from './modules/bittrex-change'
 // import coinmarketcapTicker from './modules/coinmarketcap-ticker'
 // import coinmarketcapChange from './modules/coinmarketcap-change'
-import coinmarketcapHills from './modules/coinmarketcap-hills'
+// import coinmarketcapHills from './modules/coinmarketcap-hills'
 
 /* global fetch */
 
@@ -47,10 +47,10 @@ export async function globalMarket(opts?: { convert?: string }): Promise<Object>
 
 
 const modules = [
-    // bittrexChange,
+    bittrexChange,
     // coinmarketcapTicker,
     // coinmarketcapChange,
-    coinmarketcapHills
+    //coinmarketcapHills
 ]
 
 // require('electron').remote.getGlobal('console')
