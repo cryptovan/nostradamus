@@ -1,5 +1,5 @@
 Arguments: 
-  /Users/ericmuyser/.nvm/versions/node/v7.4.0/bin/node /Users/ericmuyser/.nvm/versions/node/v7.4.0/bin/yarn run typings install -- dt~react-dom --save
+  /Users/ericmuyser/.nvm/versions/node/v7.4.0/bin/node /Users/ericmuyser/.nvm/versions/node/v7.4.0/bin/yarn add express
 
 PATH: 
   /Users/ericmuyser/.nvm/versions/node/v7.4.0/bin:/ude/pc/projects/google-cloud-sdk/bin:/usr/local/opt/postgresql@9.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -20,31 +20,40 @@ npm manifest:
       "private": true,
       "repository": "git@github.com:ericmuyser/nostradamus.git",
       "license": "UNLICENSED",
-      "main": "build/scraper/index.js",
+      "main": "./build/scraper/index.js",
       "scripts": {
           "build": "yarn run tsc --listEmittedFiles",
           "format": "./node_modules/.bin/tsfmt -r src/scraper/index.ts",
-          "start": "yarn run format && yarn run build && yarn run babel-node build/scraper/index.js && react-scripts start",
+          "start": "react-scripts start",
           "electron": "tsc && ELECTRON_ENABLE_LOGGING=1 electron .",
-          "test": "react-scripts test --env=jsdom"
+          "graphql": "yarn run build && yarn run babel-node build/data-service/index.js",
+          "test": "react-scripts test --env=jsdom",
+          "chrome": "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome --disable-web-security --user-data-dir"
       },
       "dependencies": {
+          "@types/react": "^16.0.0",
+          "antd": "^2.12.0",
+          "antd-mobile": "^1.4.2",
           "babel-cli": "^6.24.1",
           "babel-preset-es2015": "^6.24.1",
           "babel-preset-es2017": "^6.24.1",
+          "babel-preset-react-app": "^3.0.1",
+          "babel-preset-stage-1": "^6.24.1",
+          "cors": "^2.8.4",
+          "d3-dsv": "^1.0.5",
+          "d3-format": "^1.2.0",
+          "d3-time-format": "^2.0.5",
+          "express": "^4.15.3",
+          "express-graphql": "^0.6.7",
+          "flow-bin": "^0.50.0",
+          "graphql": "^0.10.5",
+          "graphql-tag": "^2.4.2",
+          "graphql-tools": "^1.1.0",
           "isomorphic-fetch": "^2.2.1",
           "node-fetch": "^1.7.1",
           "opn": "^5.1.0",
-          "querystring": "^0.2.0",
-          "timeseries-analysis": "^1.0.12",
-          "typescript": "^2.3.2",
-          "typescript-formatter": "^5.2.0",
-          "antd": "^2.12.0",x
-          "babel-preset-react-app": "^3.0.1",
-          "babel-preset-stage-1": "^6.24.1",
-          "flow-bin": "^0.50.0",
-          "graphql-tag": "^2.4.2",
           "papaparse": "^4.3.5",
+          "querystring": "^0.2.0",
           "react": "^15.6.1",
           "react-apollo": "^1.4.8",
           "react-dom": "^15.6.1",
@@ -53,22 +62,26 @@ npm manifest:
           "react-router-dom": "^4.1.1",
           "react-router-redux": "next",
           "react-scripts": "https://github.com/ericmuyser/react-relay-scripts.git",
+          "react-stockcharts": "next",
           "redux": "^3.7.1",
           "redux-thunk": "^2.2.0",
-          "sanitize.css": "^5.0.0"
+          "sanitize.css": "^5.0.0",
+          "timeseries-analysis": "^1.0.12",
+          "typescript": "^2.3.2",
+          "typescript-formatter": "^5.2.0"
       },
       "engines": {
           "node": "7.4.0",
           "npm": "3.10.10"
       },
       "devDependencies": {
-          "electron": "1.6.11",
-          "typings": "^2.1.1",
           "babel-plugin-import": "^1.2.1",
+          "electron": "1.6.11",
           "less": "^2.7.2",
           "less-loader": "^4.0.5",
           "postcss-pxtorem": "^4.0.1",
-          "svg-sprite-loader": "0.3.1"
+          "svg-sprite-loader": "0.3.1",
+          "typings": "^2.1.1"
       }
   }
 
@@ -96,6 +109,10 @@ Lockfile:
     version "7.0.39"
     resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.39.tgz#8aced4196387038113f6f9aa4014ab4c51edab3c"
   
+  "@types/react@^16.0.0":
+    version "16.0.0"
+    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.0.tgz#fec7e6302e11c1cd307129d8ce1e6d5dca4a0283"
+  
   abab@^1.0.3:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.3.tgz#b81de5f7274ec4e756d797cd834f303642724e5d"
@@ -104,7 +121,7 @@ Lockfile:
     version "1.1.0"
     resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.0.tgz#d0554c2256636e2f56e7c2e5ad183f859428d81f"
   
-  accepts@~1.3.3:
+  accepts@^1.3.0, accepts@~1.3.3:
     version "1.3.3"
     resolved "https://registry.yarnpkg.com/accepts/-/accepts-1.3.3.tgz#c3ca7434938648c3e0d9c1e328dd68b622c284ca"
     dependencies:
@@ -1587,6 +1604,10 @@ Lockfile:
     version "3.0.0"
     resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   
+  bytes@2.4.0:
+    version "2.4.0"
+    resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.4.0.tgz#7d97196f9d5baf7f6935e25985549edd2a6c2339"
+  
   bytes@2.5.0:
     version "2.5.0"
     resolved "https://registry.yarnpkg.com/bytes/-/bytes-2.5.0.tgz#4c9423ea2d252c270c41b2bdefeff9bb6b62c06a"
@@ -1874,7 +1895,7 @@ Lockfile:
     dependencies:
       delayed-stream "~1.0.0"
   
-  commander@2.11.x, commander@^2.8.1, commander@^2.9.0, commander@~2.11.0:
+  commander@2, commander@2.11.x, commander@^2.8.1, commander@^2.9.0, commander@~2.11.0:
     version "2.11.0"
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
   
@@ -1981,7 +2002,7 @@ Lockfile:
     version "1.0.1"
     resolved "https://registry.yarnpkg.com/content-type-parser/-/content-type-parser-1.0.1.tgz#c3e56988c53c65127fb46d4032a3a900246fdc94"
   
-  content-type@~1.0.2:
+  content-type@^1.0.2, content-type@~1.0.2:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.2.tgz#b7d113aee7a8dd27bd21133c4dc2529df1721eed"
   
@@ -2008,6 +2029,13 @@ Lockfile:
   core-util-is@~1.0.0:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
+  
+  cors@^2.8.4:
+    version "2.8.4"
+    resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.4.tgz#2bd381f2eb201020105cd50ea59da63090694686"
+    dependencies:
+      object-assign "^4"
+      vary "^1"
   
   cosmiconfig@^2.1.0, cosmiconfig@^2.1.1:
     version "2.2.2"
@@ -2216,6 +2244,97 @@ Lockfile:
     dependencies:
       array-find-index "^1.0.1"
   
+  d3-array@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/d3-array/-/d3-array-1.2.0.tgz#147d269720e174c4057a7f42be8b0f3f2ba53108"
+  
+  d3-collection@1, d3-collection@^1.0.3:
+    version "1.0.4"
+    resolved "https://registry.yarnpkg.com/d3-collection/-/d3-collection-1.0.4.tgz#342dfd12837c90974f33f1cc0a785aea570dcdc2"
+  
+  d3-color@1:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/d3-color/-/d3-color-1.0.3.tgz#bc7643fca8e53a8347e2fbdaffa236796b58509b"
+  
+  d3-dispatch@1:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/d3-dispatch/-/d3-dispatch-1.0.3.tgz#46e1491eaa9b58c358fce5be4e8bed626e7871f8"
+  
+  d3-dsv@^1.0.5:
+    version "1.0.5"
+    resolved "https://registry.yarnpkg.com/d3-dsv/-/d3-dsv-1.0.5.tgz#419f7db47f628789fc3fdb636e678449d0821136"
+    dependencies:
+      commander "2"
+      iconv-lite "0.4"
+      rw "1"
+  
+  d3-force@^1.0.6:
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/d3-force/-/d3-force-1.0.6.tgz#ea7e1b7730e2664cd314f594d6718c57cc132b79"
+    dependencies:
+      d3-collection "1"
+      d3-dispatch "1"
+      d3-quadtree "1"
+      d3-timer "1"
+  
+  d3-format@1, d3-format@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/d3-format/-/d3-format-1.2.0.tgz#6b480baa886885d4651dc248a8f4ac9da16db07a"
+  
+  d3-interpolate@1:
+    version "1.1.5"
+    resolved "https://registry.yarnpkg.com/d3-interpolate/-/d3-interpolate-1.1.5.tgz#69e099ff39214716e563c9aec3ea9d1ea4b8a79f"
+    dependencies:
+      d3-color "1"
+  
+  d3-path@1:
+    version "1.0.5"
+    resolved "https://registry.yarnpkg.com/d3-path/-/d3-path-1.0.5.tgz#241eb1849bd9e9e8021c0d0a799f8a0e8e441764"
+  
+  d3-quadtree@1:
+    version "1.0.3"
+    resolved "https://registry.yarnpkg.com/d3-quadtree/-/d3-quadtree-1.0.3.tgz#ac7987e3e23fe805a990f28e1b50d38fcb822438"
+  
+  d3-scale@^1.0.6:
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/d3-scale/-/d3-scale-1.0.6.tgz#bce19da80d3a0cf422c9543ae3322086220b34ed"
+    dependencies:
+      d3-array "^1.2.0"
+      d3-collection "1"
+      d3-color "1"
+      d3-format "1"
+      d3-interpolate "1"
+      d3-time "1"
+      d3-time-format "2"
+  
+  d3-selection@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/d3-selection/-/d3-selection-1.1.0.tgz#1998684896488f839ca0372123da34f1d318809c"
+  
+  d3-shape@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.2.0.tgz#45d01538f064bafd05ea3d6d2cb748fd8c41f777"
+    dependencies:
+      d3-path "1"
+  
+  d3-time-format@2, d3-time-format@^2.0.5:
+    version "2.0.5"
+    resolved "https://registry.yarnpkg.com/d3-time-format/-/d3-time-format-2.0.5.tgz#9d7780204f7c9119c9170b1a56db4de9a8af972e"
+    dependencies:
+      d3-time "1"
+  
+  d3-time@1, d3-time@^1.0.7:
+    version "1.0.7"
+    resolved "https://registry.yarnpkg.com/d3-time/-/d3-time-1.0.7.tgz#94caf6edbb7879bb809d0d1f7572bc48482f7270"
+  
+  d3-timer@1:
+    version "1.0.6"
+    resolved "https://registry.yarnpkg.com/d3-timer/-/d3-timer-1.0.6.tgz#4044bf15d7025c06ce7d1149f73cd07b54dbd784"
+  
+  d3fc-rebind@^4.1.1:
+    version "4.1.1"
+    resolved "https://registry.yarnpkg.com/d3fc-rebind/-/d3fc-rebind-4.1.1.tgz#70c8d6b63fee63dbb3cb577c68732ded535f9b32"
+  
   damerau-levenshtein@^1.0.0:
     version "1.0.4"
     resolved "https://registry.yarnpkg.com/damerau-levenshtein/-/damerau-levenshtein-1.0.4.tgz#03191c432cb6eea168bb77f3a55ffdccb8978514"
@@ -2325,6 +2444,10 @@ Lockfile:
   depd@~1.1.0:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.1.tgz#5783b4e1c459f06fa5ca27f991f3d06e7a310359"
+  
+  deprecated-decorator@^0.1.6:
+    version "0.1.6"
+    resolved "https://registry.yarnpkg.com/deprecated-decorator/-/deprecated-decorator-0.1.6.tgz#00966317b7a12fe92f3cc831f7583af329b86c37"
   
   des.js@^1.0.0:
     version "1.0.0"
@@ -2896,7 +3019,16 @@ Lockfile:
     dependencies:
       fill-range "^2.1.0"
   
-  express@^4.13.3:
+  express-graphql@^0.6.7:
+    version "0.6.7"
+    resolved "https://registry.yarnpkg.com/express-graphql/-/express-graphql-0.6.7.tgz#1605558e11404e27a13a22b8794672d901d21baa"
+    dependencies:
+      accepts "^1.3.0"
+      content-type "^1.0.2"
+      http-errors "^1.3.0"
+      raw-body "^2.1.0"
+  
+  express@^4.13.3, express@^4.15.3:
     version "4.15.3"
     resolved "https://registry.yarnpkg.com/express/-/express-4.15.3.tgz#bab65d0f03aa80c358408972fc700f916944b662"
     dependencies:
@@ -3374,7 +3506,17 @@ Lockfile:
     version "2.4.2"
     resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.4.2.tgz#6a63297d8522d03a2b72d26f1b239aab343840cd"
   
-  graphql@^0.10.0, graphql@^0.10.1:
+  graphql-tools@^1.1.0:
+    version "1.1.0"
+    resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-1.1.0.tgz#8d86ea6997b0dea3089b62dc655e47146a663ebb"
+    dependencies:
+      deprecated-decorator "^0.1.6"
+      lodash "^4.3.0"
+      uuid "^3.0.1"
+    optionalDependencies:
+      "@types/graphql" "^0.9.0"
+  
+  graphql@^0.10.0, graphql@^0.10.1, graphql@^0.10.5:
     version "0.10.5"
     resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.10.5.tgz#c9be17ca2bdfdbd134077ffd9bbaa48b8becd298"
     dependencies:
@@ -3591,7 +3733,7 @@ Lockfile:
     version "1.2.7"
     resolved "https://registry.yarnpkg.com/http-deceiver/-/http-deceiver-1.2.7.tgz#fa7168944ab9a519d337cb0bec7284dc3e723d87"
   
-  http-errors@~1.6.1:
+  http-errors@^1.3.0, http-errors@~1.6.1:
     version "1.6.1"
     resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-1.6.1.tgz#5f8b8ed98aca545656bf572997387f904a722257"
     dependencies:
@@ -3644,13 +3786,17 @@ Lockfile:
       debug "2"
       extend "3"
   
+  iconv-lite@0.4, iconv-lite@^0.4.17, iconv-lite@~0.4.13:
+    version "0.4.18"
+    resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.18.tgz#23d8656b16aae6742ac29732ea8f0336a4789cf2"
+  
   iconv-lite@0.4.13:
     version "0.4.13"
     resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.13.tgz#1f88aba4ab0b1508e8312acc39345f36e992e2f2"
   
-  iconv-lite@^0.4.17, iconv-lite@~0.4.13:
-    version "0.4.18"
-    resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.18.tgz#23d8656b16aae6742ac29732ea8f0336a4789cf2"
+  iconv-lite@0.4.15:
+    version "0.4.15"
+    resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.15.tgz#fe265a218ac6a57cfe854927e9d04c19825eddeb"
   
   icss-replace-symbols@^1.1.0:
     version "1.1.0"
@@ -4668,6 +4814,10 @@ Lockfile:
     version "4.4.0"
     resolved "https://registry.yarnpkg.com/lodash.flatten/-/lodash.flatten-4.4.0.tgz#f31c22225a9632d2bbf8e4addbef240aa765a61f"
   
+  lodash.flattendeep@^4.4.0:
+    version "4.4.0"
+    resolved "https://registry.yarnpkg.com/lodash.flattendeep/-/lodash.flattendeep-4.4.0.tgz#fb030917f86a3134e5bc9bec0d69e0013ddfedb2"
+  
   lodash.foreach@^4.3.0:
     version "4.5.0"
     resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53"
@@ -5197,7 +5347,7 @@ Lockfile:
     version "0.8.2"
     resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
   
-  object-assign@4.1.1, object-assign@4.x, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1, object-assign@~4.1.0:
+  object-assign@4.1.1, object-assign@4.x, object-assign@^4, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1, object-assign@~4.1.0:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   
@@ -6023,6 +6173,14 @@ Lockfile:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
   
+  raw-body@^2.1.0:
+    version "2.2.0"
+    resolved "https://registry.yarnpkg.com/raw-body/-/raw-body-2.2.0.tgz#994976cf6a5096a41162840492f0bdc5d6e7fb96"
+    dependencies:
+      bytes "2.4.0"
+      iconv-lite "0.4.15"
+      unpipe "1.0.0"
+  
   rc-align@2.x:
     version "2.3.4"
     resolved "https://registry.yarnpkg.com/rc-align/-/rc-align-2.3.4.tgz#d83bdab7560f0142e72a3de1d495dab6ba225249"
@@ -6593,6 +6751,25 @@ Lockfile:
     dependencies:
       prop-types "^15.5.8"
   
+  react-stockcharts@next:
+    version "0.7.0-beta.12"
+    resolved "https://registry.yarnpkg.com/react-stockcharts/-/react-stockcharts-0.7.0-beta.12.tgz#830019e0e3ec951fe1356631050c644d2c233c5c"
+    dependencies:
+      d3-array "^1.2.0"
+      d3-collection "^1.0.3"
+      d3-force "^1.0.6"
+      d3-format "^1.2.0"
+      d3-scale "^1.0.6"
+      d3-selection "^1.1.0"
+      d3-shape "^1.2.0"
+      d3-time "^1.0.7"
+      d3-time-format "^2.0.5"
+      d3fc-rebind "^4.1.1"
+      debug "^2.6.8"
+      lodash.flattendeep "^4.4.0"
+      prop-types "^15.5.10"
+      save-svg-as-png "^1.2.0"
+  
   react-timer-mixin@^0.13.3:
     version "0.13.3"
     resolved "https://registry.yarnpkg.com/react-timer-mixin/-/react-timer-mixin-0.13.3.tgz#0da8b9f807ec07dc3e854d082c737c65605b3d22"
@@ -7009,6 +7186,10 @@ Lockfile:
     dependencies:
       is-promise "^2.1.0"
   
+  rw@1:
+    version "1.3.3"
+    resolved "https://registry.yarnpkg.com/rw/-/rw-1.3.3.tgz#3f862dfa91ab766b14885ef4d01124bfda074fb4"
+  
   rx-lite-aggregates@^4.0.8:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/rx-lite-aggregates/-/rx-lite-aggregates-4.0.8.tgz#753b87a89a11c95467c4ac1626c4efc4e05c67be"
@@ -7038,6 +7219,10 @@ Lockfile:
   sanitize.css@^5.0.0:
     version "5.0.0"
     resolved "https://registry.yarnpkg.com/sanitize.css/-/sanitize.css-5.0.0.tgz#84184b40678f72bb8898c768a27be7578257271a"
+  
+  save-svg-as-png@^1.2.0:
+    version "1.2.0"
+    resolved "https://registry.yarnpkg.com/save-svg-as-png/-/save-svg-as-png-1.2.0.tgz#b09a5e8bea5ba57ccd8d269ef92c00d894cf6b1c"
   
   sax@^1.2.1, sax@~1.2.1:
     version "1.2.4"
@@ -7878,7 +8063,7 @@ Lockfile:
     version "0.1.1"
     resolved "https://registry.yarnpkg.com/universalify/-/universalify-0.1.1.tgz#fa71badd4437af4c148841e3b3b165f9e9e590b7"
   
-  unpipe@~1.0.0:
+  unpipe@1.0.0, unpipe@~1.0.0:
     version "1.0.0"
     resolved "https://registry.yarnpkg.com/unpipe/-/unpipe-1.0.0.tgz#b2bf4ee8514aae6165b4817829d21b2ef49904ec"
   
@@ -7988,7 +8173,7 @@ Lockfile:
     version "2.0.3"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-2.0.3.tgz#67e2e863797215530dff318e5bf9dcebfd47b21a"
   
-  uuid@^3.0.0:
+  uuid@^3.0.0, uuid@^3.0.1:
     version "3.1.0"
     resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
   
@@ -8009,7 +8194,7 @@ Lockfile:
     version "0.2.1"
     resolved "https://registry.yarnpkg.com/value-equal/-/value-equal-0.2.1.tgz#c220a304361fce6994dbbedaa3c7e1a1b895871d"
   
-  vary@~1.1.1:
+  vary@^1, vary@~1.1.1:
     version "1.1.1"
     resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.1.tgz#67535ebb694c1d52257457984665323f587e8d37"
   
@@ -8394,9 +8579,10 @@ Lockfile:
       raf "^3.3.0"
 
 Trace: 
-  SyntaxError: /ude/em/projects/nostradamus/package.json: Unexpected token x in JSON at position 998
-      at JSON.parse (<anonymous>)
-      at /Users/ericmuyser/.nvm/versions/node/v7.4.0/lib/node_modules/yarn/lib/util/fs.js:554:57
-      at Generator.next (<anonymous>)
-      at step (/Users/ericmuyser/.nvm/versions/node/v7.4.0/lib/node_modules/yarn/node_modules/babel-runtime/helpers/asyncToGenerator.js:17:30)
-      at /Users/ericmuyser/.nvm/versions/node/v7.4.0/lib/node_modules/yarn/node_modules/babel-runtime/helpers/asyncToGenerator.js:28:13
+  Error: connect EHOSTDOWN 104.16.60.173:443 - Local (0.0.0.0:0)
+      at Object.exports._errnoException (util.js:1022:11)
+      at exports._exceptionWithHostPort (util.js:1045:20)
+      at connect (net.js:884:16)
+      at emitLookup (net.js:1013:7)
+      at GetAddrInfoReqWrap.asyncCallback [as callback] (dns.js:62:16)
+      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:81:10)

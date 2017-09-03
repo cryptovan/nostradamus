@@ -14,6 +14,9 @@ import Trades from '../containers/trades'
 import Token from '../containers/token'
 import Exchange from '../containers/exchange'
 import Exchanges from '../containers/exchanges'
+import Monitor from '../containers/monitor'
+import Market from '../containers/market'
+import MarketPair from '../containers/market-pair'
 
 import registerServiceWorker from './registerServiceWorker'
 import { login } from '../modules/account'
@@ -102,6 +105,9 @@ class App extends Component {
                         <Route exact path="/token/:tokenCode" component={Token} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/exchanges" component={Exchanges} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/exchange/:exchangeCode" component={Exchange} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/monitor" component={Monitor} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/market" component={Market} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/market/:pair" component={MarketPair} onChange={this.onRouteChange.bind(this)} />
                     </Switch>
                 </Router>
             </div>

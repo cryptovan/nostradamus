@@ -45,6 +45,7 @@ const Container = graphql(gql`
         <Content style={{ padding: 0, margin: 0 }}>
             {data.token && data.token.name}
             {data.token && data.token.code}
+            
         </Content>
     </BasicLayout>
 ))

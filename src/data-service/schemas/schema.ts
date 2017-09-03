@@ -13,12 +13,18 @@ const schema = `
         tokens: [Token]
     }
 
+    type BasePair {
+        code: String
+        name: String
+    }
+
     type Token {
         code: String
         name: String
         type: String
         marketCap: Float
         priceUsd: Float
+        priceBtc: Float
         circulatingSupply: Float
         volume24h: Float
         change24h: Float
@@ -27,17 +33,13 @@ const schema = `
         change3m: Float
         change6m: Float
         change1y: Float
+        low24h: Float
+        high24h: Float
+        spread: Float
         hackCount: Int
         hackMentions: Int
         volatilityRank: Float
-    }
-
-    type Query {
-        exchanges: [Exchange]
-        exchange(code:String!): Exchange
-        tokens: [Token]
-        token(code:String!): Token
-        deals: [Deal]
+        basePair: BasePair
     }
 
     type Deal {
@@ -45,6 +47,15 @@ const schema = `
         type: String
         token: Token
         exchanges: [Exchange]
+    }
+
+    type Query {
+        exchanges: [Exchange]
+        exchange(code: String!): Exchange
+        tokens(basePairCode: String!): [Token]
+        token(code: String!): Token
+        deals: [Deal]
+        basePairs: [BasePair]
     }
 
     input CompleteMatchInput {
@@ -66,6 +77,7 @@ type Token = {
     type: string | null,
     marketCap: number | null,
     priceUsd: number | null,
+    priceBtc: number | null,
     circulatingSupply: number | null,
     volume24h: number | null,
     change24h: number | null,
@@ -74,6 +86,9 @@ type Token = {
     change3m: number | null,
     change6m: number | null,
     change1y: number | null,
+    high24h: number | null,
+    low24h: number | null,
+    spread: number | null,
     hackCount: number | null,
     hackMentions: number | null,
     volatilityRank: number | null
@@ -117,6 +132,7 @@ const resolvers = {
                         type: 'Platform',
                         marketCap: d.token.data!.marketCap,
                         priceUsd: d.token.data!.priceUsd,
+                        priceBtc: 1,
                         circulatingSupply: d.token.data!.circulatingSupply,
                         volume24h: d.token.data!.day.volume,
                         change24h: d.token.data!.day.max! / d.token.data!.day.end! - 1,
@@ -125,6 +141,9 @@ const resolvers = {
                         change3m: 4.00,
                         change6m: 6.00,
                         change1y: 100.00,
+                        high24h: 1,
+                        low24h: 1,
+                        spread: 1,
                         hackCount: 1,
                         hackMentions: 1,
                         volatilityRank: 1
@@ -157,8 +176,26 @@ const resolvers = {
 
             return result
         },
+        basePairs: async (_) => {
+            const result = [
+                {
+                    code: 'BTC',
+                    name: 'Bitcoin'
+                },
+                {
+                    code: 'ETH',
+                    name: 'Ethereum'
+                },
+                {
+                    code: 'USDT',
+                    name: 'Tether USD'
+                }
+            ]
+
+            return result
+        },
         token: async (_, params) => {
-            let token = mod.tokens.filter((token) => token.code === params.code)[0]
+            let token = mod.tokens.filter((token) => token.code.toUpperCase() === params.code.toUpperCase())[0]
             
             const result = {
                 code: token.data!.code,
@@ -166,6 +203,7 @@ const resolvers = {
                 type: 'Platform',
                 marketCap: token.data!.marketCap,
                 priceUsd: token.data!.priceUsd,
+                priceBtc: 1,
                 circulatingSupply: token.data!.circulatingSupply,
                 volume24h: token.data!.day.volume,
                 change24h: token.data!.day.max! / token.data!.day.end! - 1,
@@ -174,9 +212,16 @@ const resolvers = {
                 change3m: 4.00,
                 change6m: 6.00,
                 change1y: 100.00,
+                high24h: 1,
+                low24h: 1,
+                spread: 1,
                 hackCount: 1,
                 hackMentions: 1,
-                volatilityRank: 1
+                volatilityRank: 1,
+                basePair: {
+                    code: 'BTC',
+                    name: 'Bitcoin'
+                }
             }
 
             if (!result) {
@@ -193,6 +238,7 @@ const resolvers = {
                     type: 'Platform',
                     marketCap: token.data!.marketCap,
                     priceUsd: token.data!.priceUsd,
+                    priceBtc: 1,
                     circulatingSupply: token.data!.circulatingSupply,
                     volume24h: token.data!.day.volume,
                     change24h: token.data!.day.max! / token.data!.day.end! - 1,
@@ -201,9 +247,16 @@ const resolvers = {
                     change3m: 4.00,
                     change6m: 6.00,
                     change1y: 100.00,
+                    high24h: 1,
+                    low24h: 1,
+                    spread: 1,
                     hackCount: 1,
                     hackMentions: 1,
-                    volatilityRank: 1
+                    volatilityRank: 1,
+                    basePair: {
+                        code: 'BTC',
+                        name: 'Bitcoin'
+                    }
                 }
             })
             // let result = [

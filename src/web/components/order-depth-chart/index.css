@@ -1,0 +1,16 @@
+.order-depth-chart-container {
+  height: 300px;
+  position: relative;
+}
+
+.order-depth-chart-container .header {
+    height: 35px;
+}
+
+.order-depth-chart-container .order-depth-chart {
+    margin: 5px 20px;
+    height: calc(100% - 35px);
+}
+
+.order-depth-chart-container .order-depth-chart .bid-depth { fill: transparentize(#B71C1C, 0.5); }
+.order-depth-chart-container .order-depth-chart .ask-depth { fill: transparentize(#1B5320, 0.5); }

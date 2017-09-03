@@ -1,10 +1,11 @@
-import express from 'express'
-import graphqlHTTP from 'express-graphql'
 import { GraphQLSchema } from 'graphql'
 import { makeExecutableSchema } from 'graphql-tools'
-import cors from 'cors'
 
 import { schema, resolvers } from './schemas/schema'
+
+const cors = require('cors')
+const express = require('express')
+const graphqlHTTP = require('express-graphql')
 
 const app = express()
 

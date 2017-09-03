@@ -336,9 +336,7 @@ const Exchanges = graphql(gql`
 
 const Container = () => (
     <BasicLayout>
-        <Content>
-            <WhiteSpace />
-            <WhiteSpace />
+        <Content style={{'padding': '10px', 'marginTop': '10px'}}>
             <h3>Exchanges</h3>
             <Exchanges />
             <WhiteSpace />

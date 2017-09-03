@@ -21,7 +21,7 @@ export const Container = ({ changePage }) => (
     </header>
 )
 
-Container.displayName = 'footer/Container'
+Container.displayName = 'header/Container'
 
 const mapStateToProps = state => ({
 })

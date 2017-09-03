@@ -31,6 +31,16 @@ networkInterface.use([{
     }
 }])
 
+networkInterface.useAfter([{
+    applyAfterware({ response }, next) {
+        if (response.status === 500) {
+            console.error('Server returned an error')
+        }
+
+        next()
+    }
+}])
+
 const client = new ApolloClient({
     networkInterface
 })
