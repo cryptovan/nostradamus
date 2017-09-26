@@ -8,6 +8,7 @@ import { Layout, Menu, Table, Badge, Breadcrumb, Dropdown, Icon, Spin, message }
 import { WhiteSpace } from 'antd-mobile'
 
 import AdvancedLayout from '../../components/advanced-layout'
+import MarketTreeMap from '../../components/market-tree-map'
 
 
 const { SubMenu } = Menu
@@ -132,13 +133,16 @@ const Container = graphql(gql`
             <Breadcrumb.Item><Link to="/market">Market</Link></Breadcrumb.Item>
         </Breadcrumb>
         <Content style={{ 'padding': '10px', 'marginTop': '10px' }}>
-            {data.basePairs && data.basePairs.map((pair) => (
+            {data.basePairs && data.basePairs.slice(0, 2).map((pair) => (
                 <div>
                     <h2>{pair.name}</h2>
                     <Tokens basePairCode={pair.code} />
                     <br /><br />
                 </div>
             ))}
+            <div>
+                <MarketTreeMap />
+            </div>
         </Content>
     </AdvancedLayout>
 ))

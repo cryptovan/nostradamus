@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 import { Layout, Menu, Table, Badge, Breadcrumb, Dropdown, Icon, Spin } from 'antd'
 import { WhiteSpace } from 'antd-mobile'
 
-import BasicLayout from '../../components/basic-layout'
+import BasicLayout from '../../../components/basic-layout'
 
 const { SubMenu } = Menu
 const { Header, Content, Sider } = Layout
@@ -17,9 +17,11 @@ function Container() {
         <BasicLayout className="Page">
             <Breadcrumb style={{ margin: '12px 0' }}>
                 <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
+                <Breadcrumb.Item><Link to="/exchanges">Exchanges</Link></Breadcrumb.Item>
+                <Breadcrumb.Item>EtherDelta Enhanced</Breadcrumb.Item>
             </Breadcrumb>
             <Content style={{ padding: 0, margin: 0 }}>
-
+                <iframe src="https://etherdelta.com/" width="800" height="800" ref={(ref) => this.frameRef = ref}></iframe>
             </Content>
         </BasicLayout>
     )

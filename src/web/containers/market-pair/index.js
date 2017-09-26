@@ -45,13 +45,6 @@ const Container = graphql(gql`
     }
 `)((props) => (
     <AdvancedLayout>
-        <Breadcrumb style={{ margin: '12px 0' }}>
-            <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
-            <Breadcrumb.Item><Link to="/market">Market</Link></Breadcrumb.Item>
-            <Breadcrumb.Item>{props.data.token && props.data.token.name}</Breadcrumb.Item>
-        </Breadcrumb>
-        <Content style={{ 'padding': '10px', 'marginTop': '10px' }}>
-
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-lg-2">
@@ -140,7 +133,6 @@ const Container = graphql(gql`
             <div>
                 <h1>My Order History</h1>
             </div>
-        </Content>
     </AdvancedLayout>
 ))
 

@@ -17,6 +17,9 @@ import Exchanges from '../containers/exchanges'
 import Monitor from '../containers/monitor'
 import Market from '../containers/market'
 import MarketPair from '../containers/market-pair'
+import BittrexApp from '../containers/apps/bittrex'
+import EtherdeltaApp from '../containers/apps/etherdelta'
+import CoinmarketcapApp from '../containers/apps/coinmarketcap'
 
 import registerServiceWorker from './registerServiceWorker'
 import { login } from '../modules/account'
@@ -108,6 +111,9 @@ class App extends Component {
                         <Route exact path="/monitor" component={Monitor} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/market" component={Market} onChange={this.onRouteChange.bind(this)} />
                         <Route exact path="/market/:pair" component={MarketPair} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/apps/bittrex" component={BittrexApp} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/apps/etherdelta" component={EtherdeltaApp} onChange={this.onRouteChange.bind(this)} />
+                        <Route exact path="/apps/coinmarketcap" component={CoinmarketcapApp} onChange={this.onRouteChange.bind(this)} />
                     </Switch>
                 </Router>
             </div>

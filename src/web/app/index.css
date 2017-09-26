@@ -27,7 +27,7 @@ body {
     -ms-user-select: none;
     user-select: none; */
     user-select: inherit !important;
-    font-size: .32rem;
+    /*font-size: .32rem;*/
     
     background-image: url(/static/images/body_bg.jpg);
     background-repeat: no-repeat;
@@ -73,7 +73,7 @@ form {
 
 .ant-layout-header {
     width: 100%;
-    background: url(/static/images/head_bg_trans.png) transparent;
+    background: transparent; /*url(/static/images/head_bg_trans.png) */
 }
 
 .ant-menu-dark.ant-menu-horizontal {
@@ -93,7 +93,11 @@ form {
 }
 
 .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.ant-menu-dark .ant-menu-inline.ant-menu-sub {
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 .ant-layout {
@@ -106,7 +110,11 @@ form {
 }
 
 .ant-menu.ant-menu-dark .ant-menu-item-selected {
-    background-color: rgba(0, 222, 245, 0.5);
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.ant-tabs-nav .ant-tabs-tab-active {
+    color: #dacd08;
 }
 
 .ant-table {
@@ -148,6 +156,10 @@ tr.ant-table-expanded-row, tr.ant-table-expanded-row:hover,
 .ant-collapse>.ant-collapse-item>.ant-collapse-header {
     -webkit-transition: none !important;
     transition: none !important
+}
+
+.ant-collapse-borderless {
+    background: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -244,4 +256,34 @@ h1, h2, h3, h4, h5, h6 {
 .Resizer.vertical:hover {
     border-left: 5px solid rgba(0, 0, 0, 0.5);
     border-right: 5px solid rgba(0, 0, 0, 0.5);
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.App {
+  /* Disable text selection, or your app will feel like a web page */
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+
+  /* Cover the whole window */
+  height: 100%;
+
+  /* Make sure this matches the native window background color that you pass to
+   * electron.BrowserWindow({...}), otherwise your app startup will look janky. */
+  /*background: rgb(0, 0, 0);*/
+  
+  /* Smoother startup */
+  animation: fadein 1.5s;
+}
+
+.titlebar {
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }

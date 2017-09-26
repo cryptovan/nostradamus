@@ -7,7 +7,7 @@ import gql from 'graphql-tag'
 import { Layout, Menu, Table, Badge, Breadcrumb, Dropdown, Icon, Spin } from 'antd'
 import { WhiteSpace } from 'antd-mobile'
 
-import BasicLayout from '../../components/basic-layout'
+import AdvancedLayout from '../../components/advanced-layout'
 
 import './index.css'
 
@@ -335,7 +335,7 @@ const Exchanges = graphql(gql`
 
 
 const Container = () => (
-    <BasicLayout>
+    <AdvancedLayout>
         <Content style={{'padding': '10px', 'marginTop': '10px'}}>
             <h3>Exchanges</h3>
             <Exchanges />
@@ -347,7 +347,7 @@ const Container = () => (
             <Trends />
             <WhiteSpace />
         </Content>
-    </BasicLayout>
+    </AdvancedLayout>
 )
 
 Container.displayName = 'home/Container'
