@@ -71,7 +71,7 @@
     },
     "devDependencies": {
         "babel-plugin-import": "^1.2.1",
-        "electron": "1.6.11",
+        "electron": "11.5.0",
         "less": "^2.7.2",
         "less-loader": "^4.0.5",
         "postcss-pxtorem": "^4.0.1",
