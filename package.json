@@ -33,7 +33,7 @@
         "d3plus": "^1.9.8",
         "d3plus-react": "^0.2.13",
         "dateformat": "^1.0.12",
-        "express": "^4.15.4",
+        "express": "^4.17.3",
         "express-graphql": "^0.6.7",
         "flow-bin": "^0.50.0",
         "graphql": "^0.10.5",
